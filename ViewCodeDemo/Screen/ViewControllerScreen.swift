@@ -7,6 +7,7 @@
 //
 
 import UIKit
+import SnapKit
 
 class ViewControllerScreen: UIView {
     
@@ -15,9 +16,10 @@ class ViewControllerScreen: UIView {
         view.backgroundColor = .red
         view.setTitle("Enviar", for: .normal)
         view.setTitleColor(.black, for: .normal)
-        view.translatesAutoresizingMaskIntoConstraints = false
         return view
     }()
+    
+    let gridBox = GridBoxView()
     
     override init(frame: CGRect = .zero) {
         super.init(frame: frame)
@@ -34,13 +36,23 @@ class ViewControllerScreen: UIView {
 extension ViewControllerScreen: ViewCode {
     func buildViewHierarchy() {
         addSubview(button)
+        addSubview(gridBox)
     }
     
     func setupConstraints() {
-        button.leadingAnchor.constraint(equalTo: self.leadingAnchor, constant: 24.0).isActive = true
-        button.trailingAnchor.constraint(equalTo: self.trailingAnchor, constant: -24.0).isActive = true
-        button.bottomAnchor.constraint(equalTo: self.bottomAnchor, constant: -24.0).isActive = true
-        button.heightAnchor.constraint(equalToConstant: 45.0).isActive = true
+        
+        button.snp.makeConstraints { (make) in
+            make.left.equalTo(self).offset(24.0)
+            make.right.equalTo(self).inset(24.0)
+            make.bottom.equalTo(self).inset(24.0)
+            make.height.equalTo(45.0)
+        }
+        
+        gridBox.snp.makeConstraints { (make) in
+            make.height.width.equalTo(200.0)
+            make.centerX.equalToSuperview()
+            make.centerY.equalToSuperview()
+        }
     }
     
     func setupAdditionalConfiguration() {
